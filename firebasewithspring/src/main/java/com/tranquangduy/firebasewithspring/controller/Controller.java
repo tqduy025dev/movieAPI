@@ -36,12 +36,16 @@ public class Controller {
     @Autowired
     private FilmService filmService;
 
+    @GetMapping("/")
+    public ResponseEntity createPage() throws InterruptedException, ExecutionException {
+        return ResponseEntity.status(HttpStatus.OK).body("Hello World!");
+    }
+
     @GetMapping("/api/get/all_movie")
     public ResponseEntity getAllFilm() throws InterruptedException, ExecutionException {
-        
-        
+
         List<Film> mFilm = filmService.getAllMovie();
-        
+
         if (mFilm == null || mFilm.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found");
         }
@@ -51,7 +55,7 @@ public class Controller {
 
     @GetMapping("/api/get/all_genres")
     public ResponseEntity getAllGenres() throws InterruptedException, ExecutionException {
-        
+
         List<Genres> mGenres = filmService.getAllGenres();
 
         if (mGenres == null || mGenres.isEmpty()) {
@@ -64,7 +68,7 @@ public class Controller {
     @GetMapping("/api/get/list_movie_genres/{id}")
     public ResponseEntity getListMovieGenres(@PathVariable String id) throws InterruptedException, ExecutionException {
         List<Film> mFilm = filmService.getListMovieGenres(id);
-        
+
         if (mFilm == null || mFilm.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found!");
         }
@@ -83,27 +87,25 @@ public class Controller {
 
         return ResponseEntity.status(HttpStatus.OK).body(film);
     }
-    
-    
-    @GetMapping ("/api/get/search_name/{name}")
-    public ResponseEntity getFilter(@PathVariable String name) throws InterruptedException, ExecutionException{
-        
+
+    @GetMapping("/api/get/search_name/{name}")
+    public ResponseEntity getFilter(@PathVariable String name) throws InterruptedException, ExecutionException {
+
         List<Film> mFilm = filmService.getListFilter(name);
-        
+
         if (mFilm == null || mFilm.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found!");
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(mFilm);
     }
-    
 
     @PostMapping("/api/post/genres")
     public ResponseEntity createGenres(@RequestParam(name = "Genres") String genres) {
         if (genres.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Input parameter cannot be empty!");
         }
-        
+
         boolean check = filmService.saveGenres(genres);
 
         if (check) {
@@ -122,7 +124,7 @@ public class Controller {
             @RequestParam(name = "Genres") List<String> genres,
             @RequestParam(name = "LikeCount") int likeCount) {
 
-        if (fVideo.isEmpty() || fImage.isEmpty() || title.isBlank()) {
+        if (fVideo.isEmpty() || fImage.isEmpty() || title.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Input parameter cannot be empty!");
         }
 
