@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,7 +59,7 @@ public class Controller {
 
         List<Genres> mGenres = filmService.getAllGenres();
 
-        if (mGenres == null || mGenres.isEmpty()) {
+        if (mGenres == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found");
         }
 
@@ -69,7 +70,7 @@ public class Controller {
     public ResponseEntity getListMovieGenres(@PathVariable String id) throws InterruptedException, ExecutionException {
         List<Film> mFilm = filmService.getListMovieGenres(id);
 
-        if (mFilm == null || mFilm.isEmpty()) {
+        if (mFilm == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found!");
         }
 
@@ -93,11 +94,50 @@ public class Controller {
 
         List<Film> mFilm = filmService.getListFilter(name);
 
-        if (mFilm == null || mFilm.isEmpty()) {
+        if (mFilm == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found!");
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(mFilm);
+    }
+
+    @GetMapping("/api/get/highlights")
+    public ResponseEntity getHighlights() throws InterruptedException, ExecutionException {
+
+        List<Film> mFilm = filmService.getListHighlights();
+
+        if (mFilm == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found!");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(mFilm);
+    }
+
+    @GetMapping("/api/get/last_time_movie")
+    public ResponseEntity getLastTimeMovie() throws InterruptedException, ExecutionException {
+
+        List<Film> mFilm = filmService.getLastTimeUpdate();
+
+        if (mFilm == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found!");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(mFilm);
+    }
+
+    @PutMapping("/api/put/update_movie")
+    public ResponseEntity updateMovie(
+            @RequestParam(name = "id") String id,
+            @RequestParam(name = "key") String key,
+            @RequestParam(name = "data") String data){
+
+        boolean check = filmService.updateMovie(id,key,data);
+
+        if (!check) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Update fail!");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body("Update success!");
     }
 
     @PostMapping("/api/post/genres")
@@ -115,7 +155,7 @@ public class Controller {
     }
 
     @PostMapping("/api/post/movie")
-    public ResponseEntity createFIlm(
+    public ResponseEntity createFilm(
             @RequestParam(name = "Video") MultipartFile fVideo,
             @RequestParam(name = "Image") MultipartFile fImage,
             @RequestParam(name = "Description") String bio,

@@ -5,7 +5,8 @@
  */
 package com.tranquangduy.firebasewithspring.model;
 
-import java.util.ArrayList;
+import com.google.cloud.firestore.annotation.ServerTimestamp;
+import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,8 @@ public class Film {
     private String imageURL;
     private List<String> genres;
     private int likeCount;
+    @ServerTimestamp
+    private Date timeCurrent;
 
     public Film() {
     }
@@ -92,7 +95,14 @@ public class Film {
         this.likeCount = likeCount;
     }
 
+    public Date getTimeCurrent() {
+        return timeCurrent;
+    }
+
+    public void setTimeCurrent(Date timeCurrent) {
+        this.timeCurrent = timeCurrent;
+    }
+
     
-   
     
 }
