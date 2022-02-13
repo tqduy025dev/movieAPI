@@ -35,7 +35,7 @@ public class FirebaseFilleService {
     @EventListener
     public void init(ApplicationReadyEvent event) throws IOException {
 
-        InputStream serviceAccount = this.getClass().getClassLoader().getResourceAsStream("./demojavaspring-firebase-adminsdk-yovhy-e445839113.json");
+        InputStream serviceAccount = this.getClass().getClassLoader().getResourceAsStream("./demojavaspring-firebase-adminsdk-yovhy-d8d00e7d10.json");
 
         storage = StorageOptions.newBuilder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))

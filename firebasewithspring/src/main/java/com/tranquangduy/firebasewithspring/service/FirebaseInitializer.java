@@ -24,8 +24,9 @@ public class FirebaseInitializer {
 
     @PostConstruct
     private void intiDB() throws IOException {
-        InputStream serviceAccount = this.getClass().getClassLoader().getResourceAsStream("./demojavaspring-firebase-adminsdk-yovhy-e445839113.json");
+        InputStream serviceAccount = this.getClass().getClassLoader().getResourceAsStream("./demojavaspring-firebase-adminsdk-yovhy-d8d00e7d10.json");
 
+        assert serviceAccount != null;
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                 .setDatabaseUrl("https://demojavaspring-default-rtdb.firebaseio.com")
